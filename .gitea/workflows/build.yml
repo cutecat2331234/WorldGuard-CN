@@ -13,12 +13,14 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: codeberg-medium
     steps:
       - name: Checkout
+        timeout-minutes: 5
         uses: https://data.forgejo.org/actions/checkout@v4
 
       - name: Set up JDK 21
+        timeout-minutes: 5
         uses: https://data.forgejo.org/actions/setup-java@v4
         with:
           distribution: temurin
@@ -28,6 +30,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
+        timeout-minutes: 9
         run: ./gradlew build --no-daemon
 
       - name: Upload plugin JAR
