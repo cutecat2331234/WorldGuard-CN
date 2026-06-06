@@ -1,6 +1,11 @@
 # WorldGuard 中文版 (WorldGuard-cn)
 
-基于 [EngineHub/WorldGuard](https://github.com/EngineHub/WorldGuard) 7.0.x 分支的简体中文汉化版本。
+基于 [EngineHub/WorldGuard](https://github.com/EngineHub/WorldGuard) 的简体中文汉化版本。
+
+| 分支 | WorldGuard 版本 | 支持 Minecraft |
+|------|----------------|----------------|
+| `version/7.0.12-cn-1.21.1` | 7.0.12-cn | **1.21 – 1.21.1** |
+| `version/7.0.x` | 7.0.18-cn | 1.21.10+ / 最新版 |
 
 ## 功能
 
@@ -24,7 +29,7 @@ WorldGuard 让你和玩家可以保护土地免受破坏，并调整/禁用 Mine
 ## 依赖
 
 - [Paper](https://papermc.io) 或兼容的 Bukkit 服务端
-- [WorldEdit](https://dev.bukkit.org/projects/worldedit) 插件
+- [WorldEdit](https://dev.bukkit.org/projects/worldedit) 插件（1.21.1 请使用 WorldEdit 7.3.x）
 
 ## 下载
 
