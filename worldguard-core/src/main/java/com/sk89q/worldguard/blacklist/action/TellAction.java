@@ -20,7 +20,6 @@
 package com.sk89q.worldguard.blacklist.action;
 
 import com.sk89q.worldedit.util.formatting.text.TextComponent;
-import com.sk89q.worldedit.util.formatting.text.serializer.plain.PlainComponentSerializer;
 import com.sk89q.worldguard.blacklist.BlacklistEntry;
 import com.sk89q.worldguard.blacklist.event.BlacklistEvent;
 import com.sk89q.worldguard.util.i18n.I18n;
@@ -48,9 +47,9 @@ public class TellAction extends RepeatGuardedAction {
             if (message != null) {
                 message = message.replaceAll("(?!<\\\\)\\\\n", "\n").replaceAll("\\\\\\\\n", "\\n");
                 // TODO Find a better way to do this String.format call that doesn't require a string.
-                event.getPlayer().print(TextComponent.of(String.format(message, PlainComponentSerializer.INSTANCE.serialize(event.getTarget().getFriendlyNameComponent()))));
+                event.getPlayer().print(TextComponent.of(String.format(message, event.getTarget().getFriendlyName())));
             } else {
-                String friendlyName = PlainComponentSerializer.INSTANCE.serialize(event.getTarget().getFriendlyNameComponent());
+                String friendlyName = event.getTarget().getFriendlyName();
                 event.getPlayer().printError(TextComponent.of(I18n.tr("blacklist.tell.default",
                         "action", event.getDescription(), "target", friendlyName)));
             }
