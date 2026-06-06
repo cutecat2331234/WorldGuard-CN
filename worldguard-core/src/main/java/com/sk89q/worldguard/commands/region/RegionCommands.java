@@ -135,7 +135,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"define", "def", "d", "create"},
              usage = "[-w <world>] <id> [<owner1> [<owner2> [<owners...>]]]",
              flags = "ngw:",
-             desc = "Defines a region",
+             desc = "定义一个区域",
              min = 1)
     public void define(CommandContext args, Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -186,7 +186,7 @@ public final class RegionCommands extends RegionCommandsBase {
      */
     @Command(aliases = {"redefine", "update", "move"},
              usage = "[-w <world>] <id>",
-             desc = "Re-defines the shape of a region",
+             desc = "重新定义区域形状",
              flags = "gw:",
              min = 1, max = 1)
     public void redefine(CommandContext args, Actor sender) throws CommandException {
@@ -243,7 +243,7 @@ public final class RegionCommands extends RegionCommandsBase {
      */
     @Command(aliases = {"claim"},
              usage = "<id>",
-             desc = "Claim a region",
+             desc = "认领一个区域",
              min = 1, max = 1)
     public void claim(CommandContext args, Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -344,7 +344,7 @@ public final class RegionCommands extends RegionCommandsBase {
      */
     @Command(aliases = {"select", "sel", "s"},
              usage = "[-w <world>] [id]",
-             desc = "Load a region as a WorldEdit selection",
+             desc = "将区域加载为 WorldEdit 选区",
              min = 0, max = 1,
              flags = "w:")
     public void select(CommandContext args, Actor sender) throws CommandException {
@@ -383,7 +383,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"info", "i"},
              usage = "[id]",
              flags = "usw:",
-             desc = "Get information about a region",
+             desc = "查看区域信息",
              min = 0, max = 1)
     public void info(CommandContext args, Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -445,7 +445,7 @@ public final class RegionCommands extends RegionCommandsBase {
      */
     @Command(aliases = {"list"},
              usage = "[-w world] [-p owner [-n]] [-s] [-i filter] [page]",
-             desc = "Get a list of regions",
+             desc = "获取区域列表",
              flags = "np:w:i:s",
              max = 1)
     public void list(CommandContext args, Actor sender) throws CommandException {
@@ -510,7 +510,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"flag", "f"},
              usage = "<id> <flag> [-w world] [-g group] [value]",
              flags = "g:w:eh:",
-             desc = "Set flags",
+             desc = "设置区域标志",
              min = 2)
     public void flag(CommandContext args, Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -653,7 +653,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = "flags",
              usage = "[-p <page>] [id]",
              flags = "p:w:",
-             desc = "View region flags",
+             desc = "查看区域标志",
              min = 0, max = 2)
     public void flagHelper(CommandContext args, Actor sender) throws CommandException {
         World world = checkWorld(args, sender, 'w'); // Get the world
@@ -708,7 +708,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"setpriority", "priority", "pri"},
              usage = "<id> <priority>",
              flags = "w:",
-             desc = "Set the priority of a region",
+             desc = "设置区域优先级",
              min = 2, max = 2)
     public void setPriority(CommandContext args, Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -741,7 +741,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"setparent", "parent", "par"},
              usage = "<id> [parent-id]",
              flags = "w:",
-             desc = "Set the parent of a region",
+             desc = "设置区域的父区域",
              min = 1, max = 2)
     public void setParent(CommandContext args, Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -805,7 +805,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"remove", "delete", "del", "rem"},
              usage = "<id>",
              flags = "fuw:",
-             desc = "Remove a region",
+             desc = "删除一个区域",
              min = 1, max = 1)
     public void remove(CommandContext args, Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -853,7 +853,7 @@ public final class RegionCommands extends RegionCommandsBase {
      */
     @Command(aliases = {"load", "reload"},
             usage = "[world]",
-            desc = "Reload regions from file",
+            desc = "从文件重新加载区域",
             flags = "w:")
     public void load(CommandContext args, final Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -913,7 +913,7 @@ public final class RegionCommands extends RegionCommandsBase {
      */
     @Command(aliases = {"save", "write"},
             usage = "[world]",
-            desc = "Re-save regions to file",
+            desc = "将区域重新保存到文件",
             flags = "w:")
     public void save(CommandContext args, final Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -974,7 +974,7 @@ public final class RegionCommands extends RegionCommandsBase {
      */
     @Command(aliases = {"migratedb"}, usage = "<from> <to>",
              flags = "y",
-             desc = "Migrate from one Protection Database to another.", min = 2, max = 2)
+             desc = "从一个保护数据库迁移到另一个。", min = 2, max = 2)
     public void migrateDB(CommandContext args, Actor sender) throws CommandException {
         // Check permissions
         if (!getPermissionModel(sender).mayMigrateRegionStore()) {
@@ -1051,7 +1051,7 @@ public final class RegionCommands extends RegionCommandsBase {
      * @throws CommandException any error
      */
     @Command(aliases = {"migrateuuid"},
-            desc = "Migrate loaded databases to use UUIDs", max = 0)
+            desc = "将已加载的数据库迁移为使用 UUID", max = 0)
     public void migrateUuid(CommandContext args, Actor sender) throws CommandException {
         // Check permissions
         if (!getPermissionModel(sender).mayMigrateRegionNames()) {
@@ -1098,7 +1098,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"migrateheights"},
             usage = "[world]", max = 1,
             flags = "yw:",
-            desc = "Migrate regions from old height limits to new height limits")
+            desc = "将区域从旧高度限制迁移到新高度限制")
     public void migrateHeights(CommandContext args, Actor sender) throws CommandException {
         // Check permissions
         if (!getPermissionModel(sender).mayMigrateRegionHeights()) {
@@ -1153,7 +1153,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"teleport", "tp"},
              usage = "[-w world] [-c|s] <id>",
              flags = "csw:",
-             desc = "Teleports you to the location associated with the region.",
+             desc = "传送到区域关联的位置。",
              min = 1, max = 1)
     public void teleport(CommandContext args, Actor sender) throws CommandException {
         LocalPlayer player = worldGuard.checkPlayer(sender);
@@ -1217,7 +1217,7 @@ public final class RegionCommands extends RegionCommandsBase {
 
     @Command(aliases = {"toggle-bypass", "bypass"},
              usage = "[on|off]",
-             desc = "Toggle region bypassing, effectively ignoring bypass permissions.")
+             desc = "切换区域绕过模式，忽略绕过权限。")
     public void toggleBypass(CommandContext args, Actor sender) throws CommandException {
         LocalPlayer player = worldGuard.checkPlayer(sender);
         if (!player.hasPermission("worldguard.region.toggle-bypass")) {

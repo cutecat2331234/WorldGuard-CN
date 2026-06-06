@@ -322,7 +322,7 @@ public class WorldGuardPlugin extends JavaPlugin {
                 throw t;
             }
         } catch (CommandPermissionsException e) {
-            sender.sendMessage(ChatColor.RED + "You don't have permission.");
+            sender.sendMessage(ChatColor.RED + "你没有权限。");
         } catch (MissingNestedCommandException e) {
             sender.sendMessage(ChatColor.RED + e.getUsage());
         } catch (CommandUsageException e) {

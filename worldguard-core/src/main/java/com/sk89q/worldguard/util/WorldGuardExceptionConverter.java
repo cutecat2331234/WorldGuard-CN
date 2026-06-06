@@ -93,6 +93,6 @@ public class WorldGuardExceptionConverter extends ExceptionConverterHelper {
 
     @ExceptionMatch
     public void convert(AuthorizationException e) throws CommandException {
-        throw newCommandException("You don't have permission to do that.", e);
+        throw newCommandException("你没有权限执行此操作。", e);
     }
 }
