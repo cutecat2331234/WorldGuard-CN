@@ -6,6 +6,8 @@ on:
       - version/7.0.x
       - main
       - master
+    tags:
+      - 'v*'
   pull_request:
   workflow_dispatch:
 
