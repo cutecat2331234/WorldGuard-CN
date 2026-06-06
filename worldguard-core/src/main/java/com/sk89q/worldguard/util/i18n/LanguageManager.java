@@ -79,6 +79,30 @@ public class LanguageManager {
         return new LanguageManager(locale, merged);
     }
 
+    /**
+     * Load bundled language files directly from classpath resources (no data folder).
+     */
+    public static LanguageManager loadFromResources(String locale,
+            Function<String, InputStream> resourceLoader) throws IOException {
+        java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("wg-lang");
+        File langDir = tempDir.toFile();
+        langDir.deleteOnExit();
+        copyBundledLocale(resourceLoader, langDir, FALLBACK_LOCALE);
+        if (!locale.equals(FALLBACK_LOCALE)) {
+            copyBundledLocale(resourceLoader, langDir, locale);
+        }
+        return load(langDir, locale, null);
+    }
+
+    private static void copyBundledLocale(Function<String, InputStream> resourceLoader, File langDir, String locale)
+            throws IOException {
+        try (InputStream in = resourceLoader.apply("lang/" + locale + ".yml")) {
+            if (in != null) {
+                copyStream(in, new File(langDir, locale + ".yml"));
+            }
+        }
+    }
+
     private static Map<String, String> loadLocaleFile(File langDir, String locale,
             @Nullable Function<String, InputStream> defaultResource) throws IOException {
         File file = new File(langDir, locale + ".yml");

@@ -328,7 +328,8 @@ public final class RegionCommands extends RegionCommandsBase {
                 try {
                     region.setParent(templateRegion);
                 } catch (CircularInheritanceException e) {
-                    throw new CommandException(e.getMessage());
+                    throw I18nCommandException.of("error.region.circular_inheritance",
+                            java.util.Map.of("parent", templateRegion.getId(), "child", region.getId()));
                 }
             }
         }
@@ -590,7 +591,7 @@ public final class RegionCommands extends RegionCommandsBase {
             try {
                 groupValue = groupFlag.parseInput(FlagContext.create().setSender(sender).setInput(group).setObject("region", existing).build());
             } catch (InvalidFlagFormat e) {
-                throw new CommandException(e.getMessage());
+                throw I18nCommandException.of("error.flag.invalid_format", "message", e.getMessage());
             }
 
         }
@@ -601,7 +602,7 @@ public final class RegionCommands extends RegionCommandsBase {
             try {
                 value = setFlag(existing, foundFlag, sender, value).toString();
             } catch (InvalidFlagFormat e) {
-                throw new CommandException(e.getMessage());
+                throw I18nCommandException.of("error.flag.invalid_format", "message", e.getMessage());
             }
 
             if (!args.hasFlag('h')) {
@@ -1284,7 +1285,8 @@ public final class RegionCommands extends RegionCommandsBase {
 
                 builder.append(TextComponent.of(flag, i % 2 == 0 ? TextColor.GRAY : TextColor.WHITE)
                         .hoverEvent(clickToSet).clickEvent(ClickEvent.of(ClickEvent.Action.SUGGEST_COMMAND,
-                                "/rg flag -w \"" + world.getName() + "\" " + regionId + " " + flag + " ")));
+                                I18n.tr("msg.region.flag_set_suggest", java.util.Map.of(
+                                        "world", world.getName(), "id", regionId, "flag", flag)))));
                 if (i < flagList.size() + 1) {
                     builder.append(TextComponent.of(", "));
                 }
@@ -1294,10 +1296,11 @@ public final class RegionCommands extends RegionCommandsBase {
                     .append(TextComponent.newline())
                     .append(builder.build());
             if (sender.isPlayer()) {
+                String flagsCmd = I18n.tr("msg.region.flag_list_flags_command",
+                        java.util.Map.of("world", world.getName(), "id", regionId));
                 return ret.append(TextComponent.of(I18n.tr("msg.region.flag_list_or_use"), TextColor.LIGHT_PURPLE)
-                                .append(TextComponent.of("/rg flags " + regionId, TextColor.AQUA)
-                                    .clickEvent(ClickEvent.of(ClickEvent.Action.RUN_COMMAND,
-                                        "/rg flags -w \"" + world.getName() + "\" " + regionId))));
+                        .append(TextComponent.of(flagsCmd, TextColor.AQUA)
+                                .clickEvent(ClickEvent.of(ClickEvent.Action.RUN_COMMAND, flagsCmd))));
             }
             return ret;
         }

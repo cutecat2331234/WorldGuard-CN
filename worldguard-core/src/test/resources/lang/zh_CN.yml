@@ -93,6 +93,7 @@ error:
   flag:
     empty_with_value: "不能同时使用 -e(mpty) 和标志值。"
     no_group_flag: "区域标志 '{name}' 没有组标志！"
+    invalid_format: "无效的标志值：{message}"
   region_remove_flags_conflict: "不能同时使用 -u（取消父区域）和 -f（删除子区域）。"
   no_manager: "世界 '{world}' 没有区域管理器。"
   teleport:
@@ -245,6 +246,15 @@ msg:
     list_tp_center_hover: "点击传送到中心"
     current_inheritance: "（当前继承："
     current_inheritance_on: "（'{id}' 的当前继承："
+    using_global: "你当前不在任何区域内，将使用此世界的全局区域。"
+    current_regions: "当前区域："
+    click_pick_region: "点击选择此区域"
+    now_protected_prefix: "（此区域现已受保护，他人无法修改。若不需要保护，请使用 "
+    now_protected_suffix: "）"
+    passthrough_command: "/rg flag {id} passthrough allow"
+    flag_list_flags_command: "/rg flags -w \"{world}\" {id}"
+    flag_set_suggest: "/rg flag -w \"{world}\" {id} {flag} "
+    dimension_warning: "（警告：区域高度仅为 {height} 格。）"
     flag_list_available: "可用标志："
     flag_list_click_set: "点击设置"
     flag_list_unknown: "未知的标志：{name}"
@@ -287,8 +297,9 @@ msg:
     regions: "适用区域：{list}"
     none: "WorldGuard：此处没有定义的区域！"
   command:
-    op_blocked: "/op 和 /deop 只能由非 OP 玩家在控制台使用。"
+    op_blocked: "/op 和 /deop 只能在控制台使用（由 WorldGuard 设置决定）。"
   debug:
+    world_override: "区域命令使用 //world 世界覆盖：{world}"
     ignore_following: "（请忽略接下来可能出现的消息。）"
     report_console: "报告已输出到控制台。"
     report_also_console: "报告也已输出到控制台。"

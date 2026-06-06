@@ -70,8 +70,9 @@ public enum DenyReason {
     public String formatMessage(@Nullable String customTemplate) {
         String action = I18n.tr(actionKey);
         if (customTemplate != null && !customTemplate.isEmpty()) {
-            if (customTemplate.contains("%what%")) {
-                return customTemplate.replace("%what%", action);
+            String message = applyActionToTemplate(customTemplate, action);
+            if (message != null) {
+                return message;
             }
             return customTemplate;
         }
@@ -81,12 +82,26 @@ public enum DenyReason {
     public String formatMessage(@Nullable String customTemplate, Map<String, String> extra) {
         if (this == USE_COMMAND && extra != null && extra.containsKey("command")) {
             String action = I18n.tr(actionKey, "command", extra.get("command"));
-            if (customTemplate != null && !customTemplate.isEmpty() && customTemplate.contains("%what%")) {
-                return customTemplate.replace("%what%", action);
+            if (customTemplate != null && !customTemplate.isEmpty()) {
+                String message = applyActionToTemplate(customTemplate, action);
+                if (message != null) {
+                    return message;
+                }
             }
             return I18n.tr("deny.template", "action", action);
         }
         return formatMessage(customTemplate);
+    }
+
+    @Nullable
+    private static String applyActionToTemplate(String template, String action) {
+        if (template.contains("%what%")) {
+            return template.replace("%what%", action);
+        }
+        if (template.contains("{action}")) {
+            return template.replace("{action}", action);
+        }
+        return null;
     }
 
     public static Map<String, String> command(String command) {

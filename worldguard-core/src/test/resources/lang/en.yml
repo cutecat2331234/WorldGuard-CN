@@ -93,6 +93,7 @@ error:
   flag:
     empty_with_value: "You cannot use -e(mpty) with a flag value."
     no_group_flag: "Region flag '{name}' does not have a group flag!"
+    invalid_format: "Invalid flag value: {message}"
   region_remove_flags_conflict: "You cannot use both -u (unset parent) and -f (remove children) together."
   no_manager: "No region manager exists for world '{world}'."
   teleport:
@@ -245,6 +246,15 @@ msg:
     list_tp_center_hover: "Click to teleport to the center"
     current_inheritance: "(Current inheritance:"
     current_inheritance_on: "(Current inheritance on '{id}':"
+    using_global: "You're not standing in any regions. Using the global region for this world instead."
+    current_regions: "Current regions: "
+    click_pick_region: "Click to pick this region"
+    now_protected_prefix: "(This region is NOW PROTECTED from modification from others. Don't want that? Use "
+    now_protected_suffix: ")"
+    passthrough_command: "/rg flag {id} passthrough allow"
+    flag_list_flags_command: "/rg flags -w \"{world}\" {id}"
+    flag_set_suggest: "/rg flag -w \"{world}\" {id} {flag} "
+    dimension_warning: "(Warning: The height of the region was {height} block(s).)"
     flag_list_available: "Available flags: "
     flag_list_click_set: "Click to set"
     flag_list_unknown: "Unknown flag specified: {name}"
@@ -287,8 +297,9 @@ msg:
     regions: "Applicable regions: {list}"
     none: "WorldGuard: No defined regions here!"
   command:
-    op_blocked: "/op and /deop can only be used in console by non-ops."
+    op_blocked: "/op and /deop can only be used in console (as set by a WG setting)."
   debug:
+    world_override: "Using //world override for region command: {world}"
     ignore_following: "(Please ignore any messages that may immediately follow.)"
     report_console: "The report was printed to console."
     report_also_console: "The report was also printed to console."

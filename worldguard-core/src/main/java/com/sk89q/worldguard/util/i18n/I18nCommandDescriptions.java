@@ -24,6 +24,7 @@ import com.sk89q.minecraft.util.commands.CommandsManager;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,6 +35,7 @@ public final class I18nCommandDescriptions {
 
     private static final Logger log = Logger.getLogger(I18nCommandDescriptions.class.getCanonicalName());
     private static final String PREFIX = "i18n:";
+    private static final Map<String, String> DESCRIPTION_KEYS = new ConcurrentHashMap<>();
 
     private I18nCommandDescriptions() {
     }
@@ -53,9 +55,17 @@ public final class I18nCommandDescriptions {
             @SuppressWarnings("unchecked")
             Map<String, String> map = (Map<String, String>) field.get(manager);
             for (Map.Entry<String, String> entry : new HashMap<>(map).entrySet()) {
+                String alias = entry.getKey();
                 String desc = entry.getValue();
                 if (desc != null && desc.startsWith(PREFIX)) {
-                    map.put(entry.getKey(), I18n.tr(desc.substring(PREFIX.length())));
+                    String key = desc.substring(PREFIX.length());
+                    DESCRIPTION_KEYS.put(alias, key);
+                    map.put(alias, I18n.tr(key));
+                } else {
+                    String key = DESCRIPTION_KEYS.get(alias);
+                    if (key != null) {
+                        map.put(alias, I18n.tr(key));
+                    }
                 }
             }
         } catch (ReflectiveOperationException e) {
