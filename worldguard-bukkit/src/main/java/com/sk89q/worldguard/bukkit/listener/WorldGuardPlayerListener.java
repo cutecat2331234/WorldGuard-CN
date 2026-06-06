@@ -24,6 +24,7 @@ import com.sk89q.worldedit.world.gamemode.GameMode;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.util.i18n.DenyReason;
 import com.sk89q.worldguard.bukkit.event.player.ProcessPlayerEvent;
 import com.sk89q.worldguard.bukkit.util.Events;
 import com.sk89q.worldguard.bukkit.util.Materials;
@@ -147,7 +148,7 @@ public class WorldGuardPlayerListener extends AbstractListener {
 
             if (!chatFrom.testState(localPlayer, Flags.SEND_CHAT)) {
                 String message = chatFrom.queryValue(localPlayer, Flags.DENY_MESSAGE);
-                RegionProtectionListener.formatAndSendDenyMessage("chat", localPlayer, message);
+                RegionProtectionListener.formatAndSendDenyMessage(DenyReason.CHAT, localPlayer, message);
                 event.setCancelled(true);
                 return;
             }
@@ -430,7 +431,8 @@ public class WorldGuardPlayerListener extends AbstractListener {
 
             if (!test.apply(event.getMessage())) {
                 String message = set.queryValue(localPlayer, Flags.DENY_MESSAGE);
-                RegionProtectionListener.formatAndSendDenyMessage("use " + event.getMessage(), localPlayer, message);
+                RegionProtectionListener.formatAndSendDenyMessage(DenyReason.USE_COMMAND, localPlayer, message,
+                        DenyReason.command(event.getMessage()));
                 event.setCancelled(true);
                 return;
             }

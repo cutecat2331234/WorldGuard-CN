@@ -19,7 +19,7 @@
 
 package com.sk89q.worldguard.commands.task;
 
-import com.sk89q.minecraft.util.commands.CommandException;
+import com.sk89q.worldguard.util.i18n.I18nCommandException;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.managers.RemovalStrategy;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -79,9 +79,7 @@ public class RegionRemover implements Callable<Set<ProtectedRegion>> {
             for (ProtectedRegion test : manager.getRegions().values()) {
                 ProtectedRegion parent = test.getParent();
                 if (parent != null && parent.equals(region)) {
-                    throw new CommandException(
-                            "The region '" + region.getId() + "' has child regions. Use -f to force removal of children " +
-                                    "or -u to unset the parent value of these children.");
+                    throw I18nCommandException.of("error.region.has_children", "id", region.getId());
                 }
             }
 

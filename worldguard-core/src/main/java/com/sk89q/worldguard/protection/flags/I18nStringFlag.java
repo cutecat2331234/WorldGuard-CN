@@ -17,36 +17,41 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.sk89q.worldguard.blacklist.event;
+package com.sk89q.worldguard.protection.flags;
 
-import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldguard.LocalPlayer;
-import com.sk89q.worldguard.blacklist.target.Target;
+import com.sk89q.worldguard.commands.CommandUtils;
 import com.sk89q.worldguard.util.i18n.I18n;
 
 import javax.annotation.Nullable;
 
-public final class BlockBreakBlacklistEvent extends BlockBlacklistEvent {
+/**
+ * A string flag whose default value is resolved from the i18n bundle at runtime.
+ */
+public class I18nStringFlag extends StringFlag {
 
-    /**
-     * Construct the object.
-     *
-     * @param player The player associated with this event
-     * @param position The position the event occurred at
-     * @param target The target of the event
-     */
-    public BlockBreakBlacklistEvent(@Nullable LocalPlayer player, BlockVector3 position, Target target) {
-        super(player, position, target);
+    private final String i18nKey;
+
+    public I18nStringFlag(String name, String i18nKey) {
+        super(name);
+        this.i18nKey = i18nKey;
     }
 
-    @Override
-    public String getDescription() {
-        return I18n.tr("blacklist.verb.break");
+    public I18nStringFlag(String name, RegionGroup defaultGroup, String i18nKey) {
+        super(name, defaultGroup);
+        this.i18nKey = i18nKey;
     }
 
+    public String getI18nKey() {
+        return i18nKey;
+    }
+
+    @Nullable
     @Override
-    public EventType getEventType() {
-        return EventType.BREAK;
+    public String getDefault() {
+        if (!I18n.isLoaded()) {
+            return null;
+        }
+        return CommandUtils.replaceColorMacros(I18n.tr(i18nKey));
     }
 
 }

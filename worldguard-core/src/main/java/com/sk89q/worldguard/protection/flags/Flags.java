@@ -220,28 +220,19 @@ public final class Flags {
      *              in a future release. If you depend on the type of this flag, take proper precaution for future breakage.
      */
     @Deprecated
-    public static final StringFlag DENY_MESSAGE = register(new StringFlag("deny-message",
-            LegacyComponentSerializer.INSTANCE.serialize(TextComponent.of("").append(TextComponent.of("嘿！",
-                    TextColor.RED, Sets.newHashSet(TextDecoration.BOLD)))
-                    .append(TextComponent.of(" 抱歉，你不能在这里%what%。", TextColor.GRAY)))));
+    public static final StringFlag DENY_MESSAGE = register(new I18nStringFlag("deny-message", "flags.default.deny_message"));
     /**
      * @deprecated The type of this flag will change from a StringFlag to a ComponentFlag to support JSON text
      *              in a future release. If you depend on the type of this flag, take proper precaution for future breakage.
      */
     @Deprecated
-    public static final StringFlag ENTRY_DENY_MESSAGE = register(new StringFlag("entry-deny-message",
-            LegacyComponentSerializer.INSTANCE.serialize(TextComponent.of("").append(TextComponent.of("嘿！",
-                    TextColor.RED, Sets.newHashSet(TextDecoration.BOLD)))
-                    .append(TextComponent.of(" 你没有权限进入此区域。", TextColor.GRAY)))));
+    public static final StringFlag ENTRY_DENY_MESSAGE = register(new I18nStringFlag("entry-deny-message", "flags.default.entry_deny_message"));
     /**
      * @deprecated The type of this flag will change from a StringFlag to a ComponentFlag to support JSON text
      *              in a future release. If you depend on the type of this flag, take proper precaution for future breakage.
      */
     @Deprecated
-    public static final StringFlag EXIT_DENY_MESSAGE = register(new StringFlag("exit-deny-message",
-            LegacyComponentSerializer.INSTANCE.serialize(TextComponent.of("").append(TextComponent.of("嘿！",
-                    TextColor.RED, Sets.newHashSet(TextDecoration.BOLD)))
-                    .append(TextComponent.of(" 你没有权限离开此区域。", TextColor.GRAY)))));
+    public static final StringFlag EXIT_DENY_MESSAGE = register(new I18nStringFlag("exit-deny-message", "flags.default.exit_deny_message"));
 
     private Flags() {
     }

@@ -23,6 +23,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.util.formatting.text.serializer.plain.PlainComponentSerializer;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.blacklist.target.Target;
+import com.sk89q.worldguard.util.i18n.I18n;
 
 import javax.annotation.Nullable;
 
@@ -41,7 +42,7 @@ public final class BlockDispenseBlacklistEvent extends BlockBlacklistEvent {
 
     @Override
     public String getDescription() {
-        return "dispense";
+        return I18n.tr("blacklist.verb.dispense");
     }
 
     @Override

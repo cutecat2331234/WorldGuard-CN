@@ -22,6 +22,7 @@ package com.sk89q.worldguard.blacklist.action;
 import com.sk89q.worldedit.util.formatting.text.serializer.plain.PlainComponentSerializer;
 import com.sk89q.worldguard.blacklist.BlacklistEntry;
 import com.sk89q.worldguard.blacklist.event.BlacklistEvent;
+import com.sk89q.worldguard.util.i18n.I18n;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -48,7 +49,8 @@ public class KickAction implements Action {
             if (message != null) {
                 event.getPlayer().kick(String.format(message, friendlyName));
             } else {
-                event.getPlayer().kick("You can't " + event.getDescription() + " " + friendlyName);
+                event.getPlayer().kick(I18n.tr("blacklist.kick.default",
+                        "action", event.getDescription(), "target", friendlyName));
             }
         }
 

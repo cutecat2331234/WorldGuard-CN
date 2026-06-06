@@ -14,12 +14,37 @@ WorldGuard 让你和玩家可以保护土地免受破坏，并调整/禁用 Mine
 - 防止各种漏洞利用
 - 所有功能默认关闭，按需启用
 
+## 版本对照
+
+| 分支 | 版本号 | 适用 Minecraft | 产物 |
+|------|--------|----------------|------|
+| `version/7.0.x` | `7.0.18-cn-SNAPSHOT` | 1.21.10+（当前 Paper API） | `worldguard-bukkit-7.0.18-cn-SNAPSHOT-dist.jar` |
+| `version/7.0.12-cn-1.21.1` | `7.0.12-cn` | 1.21 – 1.21.1（需 WorldEdit 7.3.x） | `worldguard-bukkit-7.0.12-cn-dist.jar` |
+
 ## 汉化内容
 
-- 默认拒绝消息（deny-message、entry-deny-message、exit-deny-message）
-- 权限与保护相关提示
-- 命令描述（/rg、/wg 等）
-- 配置文件默认提示
+完整 I18N 体系，玩家可见文案均来自独立语言文件（默认 `zh_CN`，`en` 作回退）：
+
+- 区域拒绝消息（含动作描述，不再中英混合）
+- 命令输出、异常提示、黑名单消息
+- `/rg info` 等交互式 UI 文本
+- 命令帮助描述（`/wg`、`/rg` 等）
+
+区域名、玩家名、材质 ID、用户输入等动态内容保持原样，不翻译。
+
+## 语言配置
+
+首次启动后，插件数据目录结构如下：
+
+```
+plugins/WorldGuard/
+  config.yml          # language: zh_CN（可改为 en）
+  lang/
+    zh_CN.yml         # 简体中文（可自定义）
+    en.yml            # 英文回退
+```
+
+修改 `config.yml` 中的 `language` 后执行 `/wg reload` 即可热重载语言包。已有 `lang/*.yml` 不会被覆盖，便于服主自行维护翻译。
 
 ## 依赖
 
