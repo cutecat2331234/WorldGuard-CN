@@ -27,6 +27,8 @@ import com.sk89q.worldguard.util.i18n.LanguageManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.function.Function;
 import java.util.logging.Level;
 
 public final class I18nLoader {
@@ -50,11 +52,18 @@ public final class I18nLoader {
             plugin.getLogger().log(Level.WARNING, "Failed to read language from config.yml, using zh_CN", e);
         }
 
+        Function<String, InputStream> bundled = name -> plugin.getResource("defaults/" + name);
+        File langDir = new File(dataFolder, "lang");
         try {
-            I18n.init(LanguageManager.load(new File(dataFolder, "lang"), locale,
-                    name -> plugin.getResource("defaults/" + name)));
+            I18n.init(LanguageManager.load(langDir, locale, bundled));
         } catch (IOException e) {
-            plugin.getLogger().log(Level.SEVERE, "Failed to load language files", e);
+            plugin.getLogger().log(Level.SEVERE,
+                    "Failed to load language files from " + langDir.getAbsolutePath() + ", using bundled defaults", e);
+            try {
+                I18n.init(LanguageManager.loadFromResources(locale, bundled));
+            } catch (IOException e2) {
+                plugin.getLogger().log(Level.SEVERE, "Failed to load bundled language files", e2);
+            }
         }
     }
 

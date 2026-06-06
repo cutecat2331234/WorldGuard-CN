@@ -99,7 +99,7 @@ class RegionCommandsBase {
                     World override = WorldEdit.getInstance().getSessionManager().get(sender).getWorldOverride();
                     if (override != null) {
                         if (sender instanceof LocalPlayer && !override.equals(((LocalPlayer) sender).getWorld())) {
-                            sender.printDebug(TextComponent.of("Using //world override for region command: " + override.getName()));
+                            sender.printDebug(TextComponent.of(I18n.tr("msg.debug.world_override", "world", override.getName())));
                         }
                         return override;
                     }
@@ -203,8 +203,7 @@ class RegionCommandsBase {
         if (set.size() == 0) {
             if (allowGlobal) {
                 ProtectedRegion global = checkExistingRegion(regionManager, "__global__", true);
-                player.printDebug("You're not standing in any " +
-                        "regions. Using the global region for this world instead.");
+                player.printDebug(I18n.tr("msg.region.using_global"));
                 return global;
             }
             throw I18nCommandException.of("error.region.not_standing_in");
@@ -212,7 +211,7 @@ class RegionCommandsBase {
             boolean first = true;
 
             final TextComponent.Builder builder = TextComponent.builder("");
-            builder.append(TextComponent.of("Current regions: ", TextColor.GOLD));
+            builder.append(TextComponent.of(I18n.tr("msg.region.current_regions"), TextColor.GOLD));
             for (ProtectedRegion region : set) {
                 if (!first) {
                     builder.append(TextComponent.of(", "));
@@ -220,7 +219,8 @@ class RegionCommandsBase {
                 first = false;
                 TextComponent regionComp = TextComponent.of(region.getId(), TextColor.AQUA);
                 if (rgCmd != null && rgCmd.contains("%id%")) {
-                    regionComp = regionComp.hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT, TextComponent.of("Click to pick this region")))
+                    regionComp = regionComp.hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT,
+                            TextComponent.of(I18n.tr("msg.region.click_pick_region"))))
                             .clickEvent(ClickEvent.of(ClickEvent.Action.RUN_COMMAND, rgCmd.replace("%id%", region.getId())));
                 }
                 builder.append(regionComp);
@@ -335,7 +335,7 @@ class RegionCommandsBase {
         }
         int height = region.getMaximumPoint().y() - region.getMinimumPoint().y();
         if (height <= 2) {
-            sender.printDebug("(Warning: The height of the region was " + (height + 1) + " block(s).)");
+            sender.printDebug(I18n.tr("msg.region.dimension_warning", "height", String.valueOf(height + 1)));
         }
     }
 
@@ -348,9 +348,9 @@ class RegionCommandsBase {
      */
     protected static void informNewUser(Actor sender, RegionManager manager, ProtectedRegion region) {
         if (manager.size() <= 2) {
-            sender.print(SubtleFormat.wrap("(This region is NOW PROTECTED from modification from others. Don't want that? Use ")
-                            .append(TextComponent.of("/rg flag " + region.getId() + " passthrough allow", TextColor.AQUA))
-                            .append(TextComponent.of(")", TextColor.GRAY)));
+            sender.print(SubtleFormat.wrap(I18n.tr("msg.region.now_protected_prefix"))
+                            .append(TextComponent.of(I18n.tr("msg.region.passthrough_command", "id", region.getId()), TextColor.AQUA))
+                            .append(TextComponent.of(I18n.tr("msg.region.now_protected_suffix"), TextColor.GRAY)));
         }
     }
 
@@ -365,7 +365,7 @@ class RegionCommandsBase {
         ProtectedRegion spawn = WorldGuard.getInstance().getPlatform().getSpawnProtection(world);
         if (spawn != null) {
             if (!spawn.getIntersectingRegions(ImmutableList.of(region)).isEmpty()) {
-                sender.print(ErrorFormat.wrap("Warning!")
+                sender.print(ErrorFormat.wrap(I18n.tr("msg.warn.warning_label"))
                         .append(TextComponent.of(" " + I18n.tr("msg.region.spawn_overlap_warning"), TextColor.WHITE)));
                 return true;
             }
