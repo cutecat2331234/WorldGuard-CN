@@ -147,7 +147,7 @@ public class BukkitWorldConfiguration extends YamlWorldConfiguration {
 
         buildPermissions = getBoolean("build-permission-nodes.enable", false);
         buildPermissionDenyMessage = CommandUtils.replaceColorMacros(
-                getString("build-permission-nodes.deny-message", "&eSorry, but you are not permitted to do that here."));
+                getString("build-permission-nodes.deny-message", "&e抱歉，你没有权限在这里执行此操作。"));
 
         strictEntitySpawn = getBoolean("event-handling.block-entity-spawns-with-untraceable-cause", false);
         allowAllInteract = getTargetMatchers("event-handling.interaction-whitelist");

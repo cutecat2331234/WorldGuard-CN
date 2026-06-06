@@ -1,0 +1,45 @@
+name: Build WorldGuard-cn
+
+on:
+  push:
+    branches:
+      - version/7.0.x
+      - main
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: https://data.forgejo.org/actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: https://data.forgejo.org/actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build --no-daemon
+
+      - name: Upload plugin JAR
+        uses: https://data.forgejo.org/actions/upload-artifact@v4
+        with:
+          name: WorldGuard-cn-dist
+          path: worldguard-bukkit/build/libs/*-dist.jar
+          retention-days: 90
+
+      - name: Upload all JARs
+        uses: https://data.forgejo.org/actions/upload-artifact@v4
+        with:
+          name: WorldGuard-cn-all-jars
+          path: |
+            worldguard-bukkit/build/libs/*.jar
+            worldguard-core/build/libs/*.jar
+          retention-days: 90

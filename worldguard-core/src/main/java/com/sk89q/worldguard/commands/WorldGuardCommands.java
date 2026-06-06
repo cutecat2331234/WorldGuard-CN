@@ -77,7 +77,7 @@ public class WorldGuardCommands {
         this.worldGuard = worldGuard;
     }
 
-    @Command(aliases = {"version"}, desc = "Get the WorldGuard version", max = 0)
+    @Command(aliases = {"version"}, desc = "获取 WorldGuard 版本", max = 0)
     public void version(CommandContext args, Actor sender) throws CommandException {
         sender.print("WorldGuard " + WorldGuard.getVersion());
         sender.print("http://www.enginehub.org");
@@ -86,7 +86,7 @@ public class WorldGuardCommands {
         sender.printDebug(String.format("* %s (%s)", worldGuard.getPlatform().getPlatformName(), worldGuard.getPlatform().getPlatformVersion()));
     }
 
-    @Command(aliases = {"reload"}, desc = "Reload WorldGuard configuration", max = 0)
+    @Command(aliases = {"reload"}, desc = "重新加载 WorldGuard 配置", max = 0)
     @CommandPermissions({"worldguard.reload"})
     public void reload(CommandContext args, Actor sender) throws CommandException {
         // TODO: This is subject to a race condition, but at least other commands are not being processed concurrently
@@ -124,7 +124,7 @@ public class WorldGuardCommands {
         }
     }
     
-    @Command(aliases = {"report"}, desc = "Writes a report on WorldGuard", flags = "p", max = 0)
+    @Command(aliases = {"report"}, desc = "生成 WorldGuard 报告", flags = "p", max = 0)
     @CommandPermissions({"worldguard.report"})
     public void report(CommandContext args, final Actor sender) throws CommandException, AuthorizationException {
         ReportList report = new ReportList("Report");
@@ -151,7 +151,7 @@ public class WorldGuardCommands {
     }
 
     @Command(aliases = {"profile"}, usage = "[-p] [-i <interval>] [-t <thread filter>] [<minutes>]",
-            desc = "Profile the CPU usage of the server", min = 0, max = 1,
+            desc = "分析服务器 CPU 使用情况", min = 0, max = 1,
             flags = "t:i:p")
     @CommandPermissions("worldguard.profile")
     public void profile(final CommandContext args, final Actor sender) throws CommandException, AuthorizationException {
@@ -250,7 +250,7 @@ public class WorldGuardCommands {
         }, MoreExecutors.directExecutor());
     }
 
-    @Command(aliases = {"stopprofile"}, usage = "",desc = "Stop a running profile", min = 0, max = 0)
+    @Command(aliases = {"stopprofile"}, usage = "",desc = "停止正在运行的性能分析", min = 0, max = 0)
     @CommandPermissions("worldguard.profile")
     public void stopProfile(CommandContext args, final Actor sender) throws CommandException {
         synchronized (this) {
@@ -266,7 +266,7 @@ public class WorldGuardCommands {
     }
 
     @Command(aliases = {"flushstates", "clearstates"},
-            usage = "[player]", desc = "Flush the state manager", max = 1)
+            usage = "[player]", desc = "刷新状态管理器", max = 1)
     @CommandPermissions("worldguard.flushstates")
     public void flushStates(CommandContext args, Actor sender) throws CommandException {
         if (args.argsLength() == 0) {
@@ -281,7 +281,7 @@ public class WorldGuardCommands {
         }
     }
 
-    @Command(aliases = {"running", "queue"}, desc = "List running tasks", max = 0)
+    @Command(aliases = {"running", "queue"}, desc = "列出正在运行的任务", max = 0)
     @CommandPermissions("worldguard.running")
     public void listRunningTasks(CommandContext args, Actor sender) throws CommandException {
         List<Task<?>> tasks = WorldGuard.getInstance().getSupervisor().getTasks();
@@ -302,7 +302,7 @@ public class WorldGuardCommands {
         }
     }
 
-    @Command(aliases = {"debug"}, desc = "Debugging commands")
+    @Command(aliases = {"debug"}, desc = "调试命令")
     @NestedCommand({DebuggingCommands.class})
     public void debug(CommandContext args, Actor sender) {}
 
