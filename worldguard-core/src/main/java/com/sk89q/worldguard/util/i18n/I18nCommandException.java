@@ -17,18 +17,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.sk89q.worldguard.util.formatting.component;
+package com.sk89q.worldguard.util.i18n;
 
-import com.sk89q.worldedit.util.formatting.component.TextComponentProducer;
-import com.sk89q.worldedit.util.formatting.text.TextComponent;
-import com.sk89q.worldedit.util.formatting.text.format.TextColor;
-import com.sk89q.worldguard.util.i18n.I18n;
+import com.sk89q.minecraft.util.commands.CommandException;
 
-public class Notify extends TextComponentProducer {
+import java.util.Map;
 
-    public Notify(String cause, String description) {
-        append(TextComponent.of(I18n.tr("notify.prefix"), TextColor.GRAY));
-        append(TextComponent.of(cause, TextColor.LIGHT_PURPLE));
-        append(TextComponent.of(description, TextColor.GOLD));
+public final class I18nCommandException {
+
+    private I18nCommandException() {
     }
+
+    public static CommandException of(String key) {
+        return new CommandException(I18n.tr(key));
+    }
+
+    public static CommandException of(String key, String placeholder, String value) {
+        return new CommandException(I18n.tr(key, placeholder, value));
+    }
+
+    public static CommandException of(String key, Map<String, String> placeholders) {
+        return new CommandException(I18n.tr(key, placeholders));
+    }
+
 }

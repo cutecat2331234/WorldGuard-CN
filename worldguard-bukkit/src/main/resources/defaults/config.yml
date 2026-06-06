@@ -19,4 +19,7 @@
 # if any features are currently broken in your version of Bukkit.
 #
 
+# Language for player-facing messages (see lang/ folder)
+language: zh_CN
+
 # -- This should be automatically replaced by the plugin in-game --

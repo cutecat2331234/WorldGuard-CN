@@ -22,6 +22,7 @@ package com.sk89q.worldguard.bukkit;
 import com.google.common.collect.ImmutableList;
 import com.sk89q.bukkit.util.CommandsManagerRegistration;
 import com.sk89q.minecraft.util.commands.CommandException;
+import com.sk89q.worldguard.util.i18n.I18nCommandException;
 import com.sk89q.minecraft.util.commands.CommandPermissionsException;
 import com.sk89q.minecraft.util.commands.CommandUsageException;
 import com.sk89q.minecraft.util.commands.CommandsManager;
@@ -148,6 +149,11 @@ public class WorldGuardPlugin extends JavaPlugin {
         PermissionsResolverManager.initialize(this);
 
         WorldGuard.getInstance().setPlatform(platform = new BukkitWorldGuardPlatform()); // Initialise WorldGuard
+        com.sk89q.worldguard.bukkit.util.I18nLoader.load(this);
+        com.sk89q.worldguard.util.i18n.I18n.setReloadCallback(() -> {
+            com.sk89q.worldguard.bukkit.util.I18nLoader.reload(this);
+            com.sk89q.worldguard.util.i18n.I18nCommandDescriptions.patch(commands);
+        });
         WorldGuard.getInstance().setup();
         BukkitSessionManager sessionManager = (BukkitSessionManager) platform.getSessionManager();
 
@@ -162,6 +168,8 @@ public class WorldGuardPlugin extends JavaPlugin {
         if (!platform.getGlobalStateManager().hasCommandBookGodMode()) {
             reg.register(GeneralCommands.class);
         }
+
+        com.sk89q.worldguard.util.i18n.I18nCommandDescriptions.patch(commands);
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, sessionManager, BukkitSessionManager.RUN_DELAY, BukkitSessionManager.RUN_DELAY);
 
@@ -289,7 +297,8 @@ public class WorldGuardPlugin extends JavaPlugin {
                 throw t;
             }
         } catch (CommandPermissionsException e) {
-            sender.sendMessage(ChatColor.RED + "你没有权限。");
+            sender.sendMessage(com.sk89q.worldguard.commands.CommandUtils.replaceColorMacros(
+                    com.sk89q.worldguard.util.i18n.I18n.tr("plugin.no_permission")));
         } catch (MissingNestedCommandException e) {
             sender.sendMessage(ChatColor.RED + e.getUsage());
         } catch (CommandUsageException e) {
@@ -386,15 +395,15 @@ public class WorldGuardPlugin extends JavaPlugin {
     public WorldEditPlugin getWorldEdit() throws CommandException {
         Plugin worldEdit = getServer().getPluginManager().getPlugin("WorldEdit");
         if (worldEdit == null) {
-            throw new CommandException("WorldEdit does not appear to be installed.");
+            throw I18nCommandException.of("error.worldedit.not_installed");
         } else if (!worldEdit.isEnabled()) {
-            throw new CommandException("WorldEdit does not appear to be enabled.");
+            throw I18nCommandException.of("error.worldedit.not_enabled");
         }
 
         if (worldEdit instanceof WorldEditPlugin) {
             return (WorldEditPlugin) worldEdit;
         } else {
-            throw new CommandException("WorldEdit detection failed (report error).");
+            throw I18nCommandException.of("error.worldedit.detection_failed");
         }
     }
 

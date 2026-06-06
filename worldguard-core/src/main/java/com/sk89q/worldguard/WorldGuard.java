@@ -37,6 +37,7 @@ import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.flags.registry.SimpleFlagRegistry;
 import com.sk89q.worldguard.util.WorldGuardExceptionConverter;
+import com.sk89q.worldguard.util.i18n.I18nCommandException;
 import com.sk89q.worldguard.util.concurrent.EvenMoreExecutors;
 
 import java.io.File;
@@ -173,7 +174,7 @@ public final class WorldGuard {
         if (sender instanceof LocalPlayer) {
             return (LocalPlayer) sender;
         } else {
-            throw new CommandException("A player is expected.");
+            throw I18nCommandException.of("error.player_required");
         }
     }
 

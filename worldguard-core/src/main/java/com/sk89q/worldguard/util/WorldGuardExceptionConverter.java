@@ -28,6 +28,7 @@ import com.sk89q.worldedit.util.formatting.component.InvalidComponentException;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.managers.storage.StorageException;
 import com.sk89q.worldguard.protection.util.UnresolvedNamesException;
+import com.sk89q.worldguard.util.i18n.I18n;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.RejectedExecutionException;
@@ -48,10 +49,9 @@ public class WorldGuardExceptionConverter extends ExceptionConverterHelper {
         final Matcher matcher = numberFormat.matcher(e.getMessage());
 
         if (matcher.matches()) {
-            throw newCommandException("Number expected; string \"" + matcher.group(1)
-                    + "\" given.", e);
+            throw newCommandException(I18n.tr("error.number_expected_with_value", "value", matcher.group(1)), e);
         } else {
-            throw newCommandException("Number expected; string given.", e);
+            throw newCommandException(I18n.tr("error.number_expected"), e);
         }
     }
 
@@ -63,22 +63,22 @@ public class WorldGuardExceptionConverter extends ExceptionConverterHelper {
     @ExceptionMatch
     public void convert(StorageException e) throws CommandException {
         WorldGuard.logger.log(Level.WARNING, "Error loading/saving regions", e);
-        throw newCommandException("Region data could not be loaded/saved: " + e.getMessage(), e);
+        throw newCommandException(I18n.tr("error.region_data_io", "message", e.getMessage()), e);
     }
 
     @ExceptionMatch
     public void convert(RejectedExecutionException e) throws CommandException {
-        throw newCommandException("There are currently too many tasks queued to add yours. Use /wg running to list queued and running tasks.", e);
+        throw newCommandException(I18n.tr("error.task_queue_full"), e);
     }
 
     @ExceptionMatch
     public void convert(CancellationException e) throws CommandException {
-        throw newCommandException("Task was cancelled.", e);
+        throw newCommandException(I18n.tr("error.task_cancelled"), e);
     }
 
     @ExceptionMatch
     public void convert(InterruptedException e) throws CommandException {
-        throw newCommandException("Task was interrupted.", e);
+        throw newCommandException(I18n.tr("error.task_interrupted"), e);
     }
 
     @ExceptionMatch
@@ -93,6 +93,6 @@ public class WorldGuardExceptionConverter extends ExceptionConverterHelper {
 
     @ExceptionMatch
     public void convert(AuthorizationException e) throws CommandException {
-        throw newCommandException("你没有权限执行此操作。", e);
+        throw newCommandException(I18n.tr("error.no_permission"), e);
     }
 }

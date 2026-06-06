@@ -24,7 +24,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.bukkit.event.entity.DamageEntityEvent;
 import com.sk89q.worldguard.bukkit.event.inventory.UseItemEvent;
 import com.sk89q.worldguard.bukkit.util.Entities;
-import org.bukkit.ChatColor;
+import com.sk89q.worldguard.util.i18n.I18n;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -94,8 +94,7 @@ public class BlockedPotionsListener extends AbstractListener {
                 if (getPlugin().hasPermission(player, "worldguard.override.potions")) {
                     return;
                 }
-                player.sendMessage(ChatColor.RED + "抱歉，带有 "
-                        + blockedEffect.getName() + " 效果的箭矢当前已被禁用。");
+                player.sendMessage(I18n.tr("potion.blocked.arrow", "effect", blockedEffect.getName()));
             }
             event.setCancelled(true);
         }
@@ -139,15 +138,11 @@ public class BlockedPotionsListener extends AbstractListener {
                     if (getPlugin().hasPermission(player, "worldguard.override.potions")) {
                         if (wcfg.blockPotionsAlways && (item.getType() == Material.SPLASH_POTION
                                 || item.getType() == Material.LINGERING_POTION)) {
-                            player.sendMessage(ChatColor.RED + "抱歉，带有 " +
-                                    blockedEffect.getName() + " 效果的药水无法投掷，" +
-                                    "即使你拥有绕过权限，" +
-                                    "由于系统限制（且已启用严格药水拦截）。");
+                            player.sendMessage(I18n.tr("potion.blocked.splash_strict", "effect", blockedEffect.getName()));
                             event.setCancelled(true);
                         }
                     } else {
-                        player.sendMessage(ChatColor.RED + "抱歉，带有 "
-                                + blockedEffect.getName() + " 效果的药水当前已被禁用。");
+                        player.sendMessage(I18n.tr("potion.blocked.potion", "effect", blockedEffect.getName()));
                         event.setCancelled(true);
                     }
                 } else {

@@ -48,6 +48,7 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.UnknownFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.util.i18n.I18n;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -84,7 +85,7 @@ class FlagHelperBox extends PaginationBox {
     private boolean monoSpace;
 
     FlagHelperBox(World world, ProtectedRegion region, RegionPermissionModel perms) {
-        super("Flags for " + region.getId(), "/rg flags -w \"" + world.getName() + "\" -p %page% " + region.getId());
+        super(I18n.tr("ui.flags.title", "id", region.getId()), "/rg flags -w \"" + world.getName() + "\" -p %page% " + region.getId());
         this.world = world;
         this.region = region;
         this.perms = perms;
@@ -93,7 +94,7 @@ class FlagHelperBox extends PaginationBox {
     @Override
     public Component getComponent(int number) {
         if (number == Flags.INBUILT_FLAGS.size()) {
-            return centerAndBorder(TextComponent.of("Third-Party Flags", TextColor.AQUA));
+            return centerAndBorder(TextComponent.of(I18n.tr("ui.flags.third_party"), TextColor.AQUA));
         } else if (number > Flags.INBUILT_FLAGS.size()) {
             number -= 1;
         }
@@ -121,13 +122,13 @@ class FlagHelperBox extends PaginationBox {
         if (flag.usesMembershipAsDefault()) {
             builder.append(TextComponent.empty().append(TextComponent.of("*", TextColor.AQUA))
                     .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT,
-                            TextComponent.of("This is a special flag which defaults to allow for members, and deny for non-members"))));
+                            TextComponent.of(I18n.tr("ui.flags.membership_default_hint")))));
             length += monoSpace ? 1 : FlagFontInfo.getPxLength('*');
         }
         if (flag == Flags.PASSTHROUGH) {
             builder.append(TextComponent.empty().append(TextComponent.of("*", TextColor.AQUA))
                     .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT,
-                            TextComponent.of("This is a special flag which overrides build checks. (Not movement related!)"))));
+                            TextComponent.of(I18n.tr("ui.flags.passthrough_hint")))));
             length += monoSpace ? 1 : FlagFontInfo.getPxLength('*');
         }
         int leftover = (monoSpace ? PAD_PX_SIZE / 3 : PAD_PX_SIZE) - length;
@@ -199,15 +200,15 @@ class FlagHelperBox extends PaginationBox {
             List<Component> hoverTexts = new ArrayList<>();
             if (maySet) {
                 if (isExplicitSet) {
-                    hoverTexts.add(TextComponent.of("Click to unset", TextColor.GOLD));
+                    hoverTexts.add(TextComponent.of(I18n.tr("ui.flags.click_unset"), TextColor.GOLD));
                 } else if (DANGER_ZONE.contains(flag) && !(ProtectedRegion.GLOBAL_REGION.equals(region.getId()) && flag == Flags.PASSTHROUGH)) {
-                    hoverTexts.add(TextComponent.of("Setting this flag may have unintended consequences.", TextColor.RED)
+                    hoverTexts.add(TextComponent.of(I18n.tr("ui.flags.danger_line1"), TextColor.RED)
                             .append(TextComponent.newline())
-                            .append(TextComponent.of("Please read the documentation and set this flag manually if you really intend to.")
+                            .append(TextComponent.of(I18n.tr("ui.flags.danger_line2")))
                             .append(TextComponent.newline())
-                            .append(TextComponent.of("(Hint: You do not need to set this to protect the region!)"))));
+                            .append(TextComponent.of(I18n.tr("ui.flags.danger_hint"))));
                 } else {
-                    hoverTexts.add(TextComponent.of("Click to set", TextColor.GOLD));
+                    hoverTexts.add(TextComponent.of(I18n.tr("ui.flags.click_set"), TextColor.GOLD));
                 }
             }
             Component valType = getToolTipHint(defVal, choice, inherited);
@@ -238,7 +239,7 @@ class FlagHelperBox extends PaginationBox {
         if (suggestChoice != null && perms.maySetFlag(region, flag)) {
             builder.append(TextComponent.of(suggestChoice, TextColor.DARK_GRAY)
                     .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT,
-                            TextComponent.of("Click to set custom value", TextColor.GOLD)))
+                            TextComponent.of(I18n.tr("ui.flags.click_custom"), TextColor.GOLD)))
                     .clickEvent(ClickEvent.of(ClickEvent.Action.SUGGEST_COMMAND, makeCommand(flag, ""))));
         }
     }
@@ -266,9 +267,9 @@ class FlagHelperBox extends PaginationBox {
         List<Component> hoverTexts = new ArrayList<>();
         if (maySet) {
             if (isExplicitSet) {
-                hoverTexts.add(TextComponent.of("Click to change", TextColor.GOLD));
+                hoverTexts.add(TextComponent.of(I18n.tr("ui.flags.click_change"), TextColor.GOLD));
             } else {
-                hoverTexts.add(TextComponent.of("Click to set", TextColor.GOLD));
+                hoverTexts.add(TextComponent.of(I18n.tr("ui.flags.click_set"), TextColor.GOLD));
             }
         }
         Component valType = getToolTipHint(defVal, currVal, inherited);
@@ -319,19 +320,19 @@ class FlagHelperBox extends PaginationBox {
         Component valType;
         if (inherited) {
             if (currVal == defVal) {
-                valType = TextComponent.of("Inherited & ")
-                        .append(TextComponent.of("default")
+                valType = TextComponent.of(I18n.tr("ui.flags.inherited_default_prefix"))
+                        .append(TextComponent.of(I18n.tr("ui.flags.inherited_default_word"))
                                 .decoration(TextDecoration.UNDERLINED, true))
-                        .append(TextComponent.of(" value"));
+                        .append(TextComponent.of(I18n.tr("ui.flags.inherited_default_suffix")));
             } else {
-                valType = TextComponent.of("Inherited value");
+                valType = TextComponent.of(I18n.tr("ui.flags.inherited"));
             }
         } else {
             if (currVal == defVal) {
                 valType = TextComponent.empty()
-                        .append(TextComponent.of("Default")
+                        .append(TextComponent.of(I18n.tr("ui.flags.default_word"))
                                 .decoration(TextDecoration.UNDERLINED, true))
-                        .append(TextComponent.of(" value"));
+                        .append(TextComponent.of(I18n.tr("ui.flags.default_suffix")));
             } else {
                 valType = null;
             }
@@ -365,7 +366,7 @@ class FlagHelperBox extends PaginationBox {
                 : currVal.stream().map(String::valueOf).collect(Collectors.joining(","));
         TextComponent hoverComp = TextComponent.of("");
         if (currVal != null) {
-            hoverComp = hoverComp.append(TextComponent.of("Current values:"))
+            hoverComp = hoverComp.append(TextComponent.of(I18n.tr("ui.flags.current_values")))
                     .append(TextComponent.newline()).append(TextComponent.of(stringValue));
         }
         appendValueText(builder, flag, display, hoverComp);
@@ -390,13 +391,13 @@ class FlagHelperBox extends PaginationBox {
         if (currVal == null) {
             final Location defVal = flag.getDefault();
             if (defVal == null) {
-                appendValueText(builder, flag, "unset location", null);
+                appendValueText(builder, flag, I18n.tr("ui.flags.unset_location"), null);
             } else {
-                appendValueText(builder, flag, defVal.toString(), TextComponent.of("Default value:")
+                appendValueText(builder, flag, defVal.toString(), TextComponent.of(I18n.tr("ui.flags.default_value_label"))
                         .append(TextComponent.newline()).append(TextComponent.of(defVal.toString())));
             }
         } else {
-            appendValueText(builder, flag, currVal.toString(), TextComponent.of("Current value:")
+            appendValueText(builder, flag, currVal.toString(), TextComponent.of(I18n.tr("ui.flags.current_value_label"))
                     .append(TextComponent.newline()).append(TextComponent.of(currVal.toString())));
         }
     }
@@ -419,7 +420,7 @@ class FlagHelperBox extends PaginationBox {
             choices.addAll(Arrays.asList(suggested));
         }
         //noinspection unchecked
-        appendValueChoices(builder, flag, (Iterator<V>) choices.iterator(), choices.isEmpty() ? "unset number" : "[custom]");
+        appendValueChoices(builder, flag, (Iterator<V>) choices.iterator(), choices.isEmpty() ? I18n.tr("ui.flags.unset_number") : I18n.tr("ui.flags.custom"));
     }
 
     private void appendStringFlagValue(TextComponent.Builder builder, StringFlag flag) {
@@ -430,7 +431,7 @@ class FlagHelperBox extends PaginationBox {
         if (currVal == null) {
             final String defVal = flag.getDefault();
             if (defVal == null) {
-                appendValueText(builder, flag, "unset string", null);
+                appendValueText(builder, flag, I18n.tr("ui.flags.unset_string"), null);
             } else {
                 final TextComponent defComp = LegacyComponentSerializer.INSTANCE.deserialize(defVal);
                 String display = reduceToText(defComp);
@@ -438,7 +439,7 @@ class FlagHelperBox extends PaginationBox {
                 if (display.length() > 23) {
                     display = display.substring(0, 20) + "...";
                 }
-                appendValueText(builder, flag, display, TextComponent.of("Default value:")
+                appendValueText(builder, flag, display, TextComponent.of(I18n.tr("ui.flags.default_value_label"))
                         .append(TextComponent.newline()).append(defComp));
             }
         } else {
@@ -448,7 +449,7 @@ class FlagHelperBox extends PaginationBox {
             if (display.length() > 23) {
                 display = display.substring(0, 20) + "...";
             }
-            appendValueText(builder, flag, display, TextComponent.of("Current value:")
+            appendValueText(builder, flag, display, TextComponent.of(I18n.tr("ui.flags.current_value_label"))
                     .append(TextComponent.newline()).append(currComp));
         }
     }

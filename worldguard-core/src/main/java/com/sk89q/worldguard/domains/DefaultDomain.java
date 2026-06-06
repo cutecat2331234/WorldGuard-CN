@@ -31,6 +31,7 @@ import com.sk89q.worldedit.util.formatting.text.event.HoverEvent;
 import com.sk89q.worldedit.util.formatting.text.format.TextColor;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.util.ChangeTracked;
+import com.sk89q.worldguard.util.i18n.I18n;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -379,7 +380,7 @@ public class DefaultDomain implements Domain, ChangeTracked {
                 builder.append(TextComponent.of(", "));
             }
         }
-        return builder.build().hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT, TextComponent.of("Groups")));
+        return builder.build().hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT, TextComponent.of(I18n.tr("ui.domain.groups"))));
     }
 
     private Component toPlayersComponent(ProfileCache cache) {
@@ -411,14 +412,14 @@ public class DefaultDomain implements Domain, ChangeTracked {
             final UUID uuid = profileMap.get(name);
             if (uuid == null) {
                 return TextComponent.of(name, TextColor.YELLOW)
-                        .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT, TextComponent.of("Name only", TextColor.GRAY)
-                            .append(TextComponent.newline()).append(TextComponent.of("Click to copy"))))
+                        .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT, TextComponent.of(I18n.tr("ui.domain.name_only"), TextColor.GRAY)
+                            .append(TextComponent.newline()).append(TextComponent.of(I18n.tr("ui.common.click_copy")))))
                         .clickEvent(ClickEvent.of(ClickEvent.Action.COPY_TO_CLIPBOARD, name));
             } else {
                 return TextComponent.of(name, TextColor.YELLOW)
-                        .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT, TextComponent.of("Last known name of uuid: ", TextColor.GRAY)
+                        .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT, TextComponent.of(I18n.tr("ui.domain.last_known_name_prefix"), TextColor.GRAY)
                             .append(TextComponent.of(uuid.toString(), TextColor.WHITE))
-                            .append(TextComponent.newline()).append(TextComponent.of("Click to copy"))))
+                            .append(TextComponent.newline()).append(TextComponent.of(I18n.tr("ui.common.click_copy")))))
                         .clickEvent(ClickEvent.of(ClickEvent.Action.COPY_TO_CLIPBOARD, uuid.toString()));
             }
         }).iterator();
@@ -430,11 +431,12 @@ public class DefaultDomain implements Domain, ChangeTracked {
         }
 
         if (!uuids.isEmpty()) {
-            builder.append(TextComponent.of(uuids.size() + " unknown uuid" + (uuids.size() == 1 ? "" : "s"), TextColor.GRAY)
-                    .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT, TextComponent.of("Unable to resolve the name for:", TextColor.GRAY)
+            String unknownKey = uuids.size() == 1 ? "ui.domain.unknown_uuid" : "ui.domain.unknown_uuids";
+            builder.append(TextComponent.of(I18n.tr(unknownKey, "count", String.valueOf(uuids.size())), TextColor.GRAY)
+                    .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT, TextComponent.of(I18n.tr("ui.domain.unable_resolve"), TextColor.GRAY)
                         .append(TextComponent.newline())
                         .append(TextComponent.of(String.join("\n", uuids), TextColor.WHITE))
-                        .append(TextComponent.newline().append(TextComponent.of("Click to copy")))))
+                        .append(TextComponent.newline().append(TextComponent.of(I18n.tr("ui.common.click_copy"))))))
                     .clickEvent(ClickEvent.of(ClickEvent.Action.COPY_TO_CLIPBOARD, String.join(",", uuids))));
         }
 
